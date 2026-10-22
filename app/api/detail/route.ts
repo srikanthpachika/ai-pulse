@@ -1,3 +1,4 @@
+import {feedText,feedSummary} from '../../../lib/feed-text';
 import {env} from 'cloudflare:workers';
 import {readResearch} from '../../../lib/research';
 import {fallback,sources} from '../../data';
@@ -21,5 +22,6 @@ export async function GET(request:Request){
  }
  if(!item)return Response.json({error:'This item is no longer in the available feed. Return to Discover to choose another story.'},{status:404});
  if(!item.body&&(blogSeeds as Record<string,string>)[url])item={...item,body:(blogSeeds as Record<string,string>)[url]};
+ item={...item,...(item.title?{title:feedText(item.title)}:{}),...(item.summary?{summary:feedText(item.summary)||feedSummary('',item.provider||item.publisher)}:{}),...(item.description?{description:feedText(item.description)}:{})};
  return Response.json({kind,item},{headers:{'Cache-Control':'public, max-age=60'}});
 }
