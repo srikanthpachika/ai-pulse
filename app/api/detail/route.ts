@@ -7,7 +7,7 @@ import {seedModels} from '../../model-seeds';
 import {GET as getNews} from '../news/route';
 export async function GET(request:Request){
  const url=new URL(request.url).searchParams.get('url');
- if(!url||url.length>2000||!url.startsWith('https://'))return Response.json({error:'Select a valid AI Pulse story.'},{status:400});
+ if(!url||url.length>2000||!url.startsWith('https://'))return Response.json({error:'Select a valid The AI Notes story.'},{status:400});
  const research=await readResearch().catch(()=>null);
  const repo=[...(research?.repos||[]),...seeds.repos].find(r=>r.url===url);
  const news=[...(research?.news||[]),...seeds.news].find(n=>n.url===url);

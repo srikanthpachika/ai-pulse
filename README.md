@@ -1,3 +1,32 @@
+# The AI Notes
+
+AI news, model releases, implementation blogs, open-source references, comparisons, and community discussions. Managed by **VServe Systems Inc.**
+
+Primary requested domain: **theainotes.com**. Domain routing requires DNS validation; adding the hostname to configuration does not make it live.
+
+## Features
+
+- Daily research ingestion with evidence-backed model profiles and original summaries.
+- Blog detail pages, anonymous or signed-in comments, moderation, reactions, view counts, and sharing.
+- Owner sign-in plus an admin password, editorial publishing, and analytics for section visits and active time.
+- Responsive advertisement placeholders; AdSense code is not activated.
+
+## Hosting and data
+
+The current publication runs on Cloudflare Workers through Sites, with D1 (`DB`) and R2 (`BUCKET`). Source is mirrored to this GitHub repository. Runtime content and community records live in those services, not in GitHub.
+
+Runtime secrets: `ADMIN_EMAIL`, `COMMENT_HASH_SALT`, and `RESEARCH_WRITER_SHA256`. Configure them through the hosting secret interface. Never put secret values in source or GitHub.
+
+The `X-AIPulse-Writer` header, existing admin cookie name, and analytics session-storage key remain compatible with the original deployment. These internal identifiers do not affect the public brand. Saved stories migrate from the original local-storage key when available on the same origin.
+
+## Moving into a VServe Cloudflare account
+
+This is a migration, not a GitHub Pages upload. Create Workers, D1 and R2 in the destination account, apply migrations, and transfer existing runtime data. The current ChatGPT identity headers are injected by Sites; a raw Worker must not trust visitor-supplied copies of those headers. Adapt authentication through a verified identity provider before exposing independent admin or account routes. Reconfigure the research writer and update its schedule destination only after end-to-end testing. Preserve current hosting until the new domain, login, comments and scheduled writes work.
+
+Workers Paid starts at $5/month plus applicable usage (pricing checked October 22, 2026). Domain registration, external AI/search services, and email/SMS delivery are separate.
+
+---
+
 # vinext-starter
 
 A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
