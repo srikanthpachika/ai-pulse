@@ -15,6 +15,13 @@
       "when": 1792677096848,
       "tag": "0001_workable_puppet_master",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792692805393,
+      "tag": "0002_marvelous_nekra",
+      "breakpoints": true
     }
   ]
 }
