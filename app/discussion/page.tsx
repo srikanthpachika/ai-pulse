@@ -1,0 +1,3 @@
+'use client';
+import {useEffect,useState} from 'react';import {Shell} from '../community-ui';import Thread from '../thread';
+export default function Discussion(){const [key,setKey]=useState(''),[title,setTitle]=useState('Discussion'),[path,setPath]=useState('/discussion');useEffect(()=>{const p=new URLSearchParams(location.search);setKey(p.get('post')||'');setTitle(p.get('title')||'Discussion');setPath(location.pathname+location.search)},[]);return <Shell><h1>{title}</h1>{key?<Thread postKey={key} title={title} returnTo={path}/>:<p>Select a story to join its discussion. <a href='/'>Browse updates →</a></p>}</Shell>}
