@@ -1,0 +1,422 @@
+[
+  {
+    "slug": "dentists",
+    "name": "Dentists",
+    "icon": "\ud83e\uddb7",
+    "intro": "Make patient education clearer and practice workflows easier, with the dentist in control.",
+    "caution": "Educational workflows only. Do not upload identifiable patient records or images to consumer AI. Clinical tools require practice approval, appropriate data agreements, local regulatory checks and dentist review.",
+    "tools": [
+      {
+        "name": "Overjet",
+        "fit": "Explore dental AI for image-supported clinical review and practice workflows. Request a demonstration of your specific intended use.",
+        "url": "https://www.overjet.com/",
+        "access": "Practice demo / contract; confirm scope and integration"
+      },
+      {
+        "name": "ADA AI resources",
+        "fit": "Understand dental AI terminology, limitations and practice considerations before selecting a product.",
+        "url": "https://www.ada.org/resources/practice/dental-standards/artificial-intelligence-in-dentistry",
+        "access": "Professional reference; not an AI generator"
+      },
+      {
+        "name": "Microsoft Copilot",
+        "fit": "Explore general-purpose drafting for public or synthetic, non-sensitive material. This is not a clinical or estimating system.",
+        "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-writing-prompts-in-microsoft-365-copilot",
+        "access": "Use an organization-approved account and check current data terms and limits"
+      }
+    ],
+    "useCases": [
+      {
+        "slug": "patient-explainer",
+        "title": "Turn approved instructions into a patient-friendly explainer",
+        "summary": "Prepare a readable take-home handout without inventing clinical advice.",
+        "inputs": "Your practice-approved instruction sheet; reading level; language; no patient identifiers.",
+        "steps": [
+          "Select a generic instruction sheet already approved by the dentist.",
+          "In a practice-approved writing assistant, request a plain-language version using only that source.",
+          "Compare every instruction with the source; have the dentist approve translations and final wording."
+        ],
+        "prompt": "Using only the approved text below, draft a one-page plain-language handout. Preserve all warnings and contact instructions. Do not add medicines, doses or advice. Mark unclear wording for clinician review. [approved text]",
+        "output": "A draft handout plus a list of passages needing review.",
+        "review": "Confirm every clinical statement, translation and contact number. Provide the original instructions when needed.",
+        "tool": "Microsoft Copilot"
+      },
+      {
+        "slug": "image-review-pilot",
+        "title": "Evaluate a dental imaging AI pilot",
+        "summary": "Run a controlled evaluation of a specialist tool before changing practice workflows.",
+        "inputs": "Approved evaluation images; intended-use documentation; clinician review rubric.",
+        "steps": [
+          "Ask the vendor for device status, supported image types, privacy terms and integration requirements.",
+          "Use an approved evaluation environment; compare AI annotations with independent dentist assessments.",
+          "Record misses, false positives and workflow issues; decide whether a supervised pilot is justified."
+        ],
+        "prompt": "Vendor evaluation checklist: intended use, jurisdiction, compatible imaging, data retention, disagreement handling, audit trail and training. Answer from supplied documentation only.",
+        "output": "A pilot scorecard and documented go / no-go decision.",
+        "review": "Annotations support review; the dentist determines findings and treatment. No accuracy claim is made here.",
+        "tool": "Overjet"
+      },
+      {
+        "slug": "practice-faq",
+        "title": "Draft a practice FAQ",
+        "summary": "Answer routine questions about hours, booking and office policies.",
+        "inputs": "Public practice policies and contact information.",
+        "steps": [
+          "Collect current policies in one approved source.",
+          "Draft short answers and a clear escalation instruction for clinical questions.",
+          "Test ambiguous questions; publish only staff-reviewed answers."
+        ],
+        "prompt": "Draft 10 FAQs using these office policies only. If information is missing, say to contact the office. Do not answer diagnosis or treatment questions. [policies]",
+        "output": "A reviewed FAQ for the website or reception team.",
+        "review": "Check hours, fees and policies. Never promise insurance coverage or treatment outcomes.",
+        "tool": "Microsoft Copilot"
+      }
+    ]
+  },
+  {
+    "slug": "doctors",
+    "name": "Doctors",
+    "icon": "\ud83e\ude7a",
+    "intro": "Explore documentation and communication workflows that keep clinical decisions with the care team.",
+    "caution": "These are workflow examples, not medical advice. Use organization-approved systems, required patient consent and appropriate privacy agreements. A clinician must review clinical output before it enters the record or reaches a patient.",
+    "tools": [
+      {
+        "name": "Microsoft Dragon Copilot",
+        "fit": "Explore AI-assisted clinical documentation and clinician workflows.",
+        "url": "https://www.microsoft.com/en-us/health-solutions/clinical-workflow/dragon-copilot",
+        "access": "Organization procurement; confirm region, EHR and role support"
+      },
+      {
+        "name": "Dragon Copilot documentation",
+        "fit": "Read product capabilities and deployment guidance before a supervised pilot.",
+        "url": "https://learn.microsoft.com/en-us/industry/healthcare/dragon-copilot/",
+        "access": "Official documentation"
+      }
+    ],
+    "useCases": [
+      {
+        "slug": "visit-note",
+        "title": "Create a reviewed visit-note draft",
+        "summary": "Use an approved documentation assistant to draft, then reconcile, an encounter note.",
+        "inputs": "Approved recording workflow, required consent and clinician documentation template.",
+        "steps": [
+          "Confirm the organization has approved the tool, consent process and EHR workflow.",
+          "Capture an encounter through the approved system and generate a draft in the required format.",
+          "Reconcile the draft against the encounter; correct errors and sign only after clinician review."
+        ],
+        "prompt": "For a synthetic training transcript only: organize the provided facts into the specified note headings. Do not infer diagnoses, normal findings, medication doses or missing history. Mark gaps.",
+        "output": "A clinician-reviewed note with omissions and corrections resolved.",
+        "review": "Check negations, speakers, allergies, medicines, doses and follow-up. Never auto-sign.",
+        "tool": "Microsoft Dragon Copilot"
+      },
+      {
+        "slug": "patient-summary",
+        "title": "Draft an understandable visit summary",
+        "summary": "Translate approved clinician instructions into accessible language.",
+        "inputs": "Final clinician-approved instructions with identifiers removed for any general-purpose demonstration.",
+        "steps": [
+          "Start from the approved plan rather than a model-generated treatment recommendation.",
+          "Request a plain-language draft that preserves every instruction and escalation detail.",
+          "Have the clinician check completeness and an appropriate reviewer check translated versions."
+        ],
+        "prompt": "Rewrite only the supplied approved instructions in plain language. Preserve all numbers and warnings exactly. Add no medical advice. List anything ambiguous. [synthetic instructions]",
+        "output": "A patient-summary draft and a review checklist.",
+        "review": "Do not send until the clinician approves. Confirm that accessibility changes preserve meaning.",
+        "tool": "Dragon Copilot documentation"
+      },
+      {
+        "slug": "referral-draft",
+        "title": "Prepare a referral-letter draft",
+        "summary": "Organize verified information into a referral for clinician approval.",
+        "inputs": "Verified reason for referral, relevant history and approved organizational template.",
+        "steps": [
+          "Use an approved clinical environment and the minimum necessary information.",
+          "Draft the letter from supplied facts, explicitly marking missing fields.",
+          "Review recipients, urgency and attachments before securely sending."
+        ],
+        "prompt": "Using this synthetic case and template, draft a referral. Do not invent examination findings, urgency or test results. Put [needs clinician input] where information is missing.",
+        "output": "A reviewed referral letter with verified attachments.",
+        "review": "The clinician decides urgency and destination; staff verify secure delivery.",
+        "tool": "Microsoft Dragon Copilot"
+      }
+    ]
+  },
+  {
+    "slug": "teachers",
+    "name": "Teachers",
+    "icon": "\ud83d\udcda",
+    "intro": "Build lesson materials and feedback that fit your classroom, curriculum and learners.",
+    "caution": "Use school-approved tools. Keep student identifiers and sensitive records out of general prompts. Teachers verify content and make grading and learning-support decisions.",
+    "tools": [
+      {
+        "name": "MagicSchool",
+        "fit": "Explore educator tools for planning, rubrics and classroom communication.",
+        "url": "https://www.magicschool.ai/magic-tools",
+        "access": "Teacher access and district offerings; check current limits"
+      },
+      {
+        "name": "MagicSchool educator platform",
+        "fit": "Explore deployment, training and school policy resources.",
+        "url": "https://www.magicschool.ai/magicschool",
+        "access": "Confirm school approval and student-access terms"
+      }
+    ],
+    "useCases": [
+      {
+        "slug": "lesson-plan",
+        "title": "Build a lesson with a useful exit ticket",
+        "summary": "Turn a curriculum objective into a teachable sequence and quick understanding check.",
+        "inputs": "Grade level; exact standard; lesson duration; available materials.",
+        "steps": [
+          "Paste the standard and identify prerequisite knowledge without student names.",
+          "Generate a sequence with modeling, guided practice, independent work and an exit ticket.",
+          "Solve all examples yourself and adapt pacing to your actual class."
+        ],
+        "prompt": "Plan a 40-minute grade 4 lesson on rounding whole numbers to the nearest thousand. Include a number-line example, two misconceptions, five practice questions and a three-question exit ticket with a separate answer key.",
+        "output": "An editable lesson outline, worksheet and checked answer key.",
+        "review": "Verify alignment, arithmetic, reading load and accessibility.",
+        "tool": "MagicSchool"
+      },
+      {
+        "slug": "differentiate-reading",
+        "title": "Create reading supports from one text",
+        "summary": "Prepare scaffolds without changing the learning objective.",
+        "inputs": "A passage you have permission to use; vocabulary goals; curriculum objective.",
+        "steps": [
+          "Select a short authorized passage and define the common learning goal.",
+          "Request vocabulary support, chunked instructions and an extension activity.",
+          "Compare versions with the original and check that key facts and challenge remain appropriate."
+        ],
+        "prompt": "Using this permitted passage, create a vocabulary glossary, chunked reading questions and an extension task. Keep all original facts. Do not label students by ability. [passage]",
+        "output": "Three support options tied to one objective.",
+        "review": "Check fidelity, cultural assumptions and learning needs. Do not upload IEPs or student records.",
+        "tool": "MagicSchool"
+      },
+      {
+        "slug": "rubric-feedback",
+        "title": "Create a rubric and formative feedback bank",
+        "summary": "Make expectations clear while keeping assessment with the teacher.",
+        "inputs": "Assignment prompt; learning goals; anonymized or synthetic sample.",
+        "steps": [
+          "Define success criteria before requesting a draft rubric.",
+          "Generate observable descriptors and feedback examples for each criterion.",
+          "Calibrate against sample work and revise before using with students."
+        ],
+        "prompt": "Draft a four-level rubric for a grade 4 evidence-based paragraph. Use observable criteria for claim, evidence and explanation. Add encouraging feedback examples. Do not assign a student grade.",
+        "output": "A calibrated rubric and reusable feedback suggestions.",
+        "review": "The teacher assesses work and checks bias; do not use automated output as the final grade.",
+        "tool": "MagicSchool"
+      }
+    ]
+  },
+  {
+    "slug": "painters",
+    "name": "Painters & artists",
+    "icon": "\ud83c\udfa8",
+    "intro": "Explore visual concepts for artists and practical planning for painting contractors.",
+    "caution": "AI previews are concepts. Screens and generated images do not reproduce physical paint exactly. Measure on site and confirm finishes with real samples.",
+    "tools": [
+      {
+        "name": "Adobe Firefly",
+        "fit": "Generate and edit visual concepts for authorized creative projects.",
+        "url": "https://www.adobe.com/products/firefly.html",
+        "access": "Check plan, credits and terms for the selected model"
+      },
+      {
+        "name": "Benjamin Moore Color Portfolio",
+        "fit": "Preview paint colors on photos and explore manufacturer color options.",
+        "url": "https://www.benjaminmoore.com/en-us/color-portfolio-paint-matching-app",
+        "access": "Companion visualizer; not presented as generative AI"
+      },
+      {
+        "name": "Microsoft Copilot",
+        "fit": "Explore general-purpose drafting for public or synthetic, non-sensitive material. This is not a clinical or estimating system.",
+        "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-writing-prompts-in-microsoft-365-copilot",
+        "access": "Use an organization-approved account and check current data terms and limits"
+      }
+    ],
+    "useCases": [
+      {
+        "slug": "room-color-concept",
+        "title": "Present three room-color directions",
+        "summary": "Help a client compare wall-color ideas before buying samples.",
+        "inputs": "A room photo with client permission; fixed furniture colors; preferred mood.",
+        "steps": [
+          "Remove personal details from the photo and list surfaces that must stay unchanged.",
+          "Prepare three color directions; use a manufacturer visualizer to explore actual color options.",
+          "Label previews as simulations and test physical samples in daylight and evening light."
+        ],
+        "prompt": "Suggest three wall-color directions for a room with warm oak cabinets and a navy sofa. Explain undertones and mood. Do not claim an exact manufacturer match from a photo.",
+        "output": "A three-option concept board and physical-sample shortlist.",
+        "review": "Verify real paint codes, lighting and substrate. Generated previews can change geometry or finishes.",
+        "tool": "Benjamin Moore Color Portfolio"
+      },
+      {
+        "slug": "mural-concept",
+        "title": "Develop a client-approved mural concept",
+        "summary": "Explore composition before creating original production artwork.",
+        "inputs": "Client brief; wall dimensions; permitted references; required text.",
+        "steps": [
+          "Create a brief with scale, palette and subjects plus any forbidden elements.",
+          "Generate varied concept directions and select one with the client.",
+          "Redraw and refine the design; prepare a scaled layout and obtain written approval."
+        ],
+        "prompt": "Create a concept for a community garden mural with local plants, a calm palette and space for a title. Avoid logos and imitation of named living artists. Keep it readable at a distance.",
+        "output": "A concept board, refined sketch and client approval record.",
+        "review": "Check rights, lettering and feasibility. Review the selected model\u2019s commercial terms.",
+        "tool": "Adobe Firefly"
+      },
+      {
+        "slug": "scope-estimate",
+        "title": "Draft a painting scope from measured quantities",
+        "summary": "Organize a clear estimate without trusting AI to measure the building.",
+        "inputs": "Measured surface areas; openings; product coverage; coat count; verified rates.",
+        "steps": [
+          "Measure surfaces and calculate quantities in a spreadsheet.",
+          "Use a writing assistant to organize your verified numbers into a scope with exclusions.",
+          "Recheck totals, preparation, access requirements and product specifications."
+        ],
+        "prompt": "Turn the supplied verified quantities and rates into an itemized painting scope. Do not invent dimensions or prices. Separate preparation, materials, labor and exclusions; flag missing inputs.",
+        "output": "A checked estimate draft and customer-facing scope.",
+        "review": "A contractor verifies measurements, arithmetic, prices and exclusions. The assistant only drafts text from your verified figures.",
+        "tool": "Microsoft Copilot"
+      }
+    ]
+  },
+  {
+    "slug": "content-creators",
+    "name": "Content creators",
+    "icon": "\ud83c\udfac",
+    "intro": "Turn your expertise into original scripts, edited videos and useful follow-up posts.",
+    "caution": "Use material you own or have permission to use. Check claims and media licenses, obtain consent for likenesses and voices, and follow platform disclosure requirements.",
+    "tools": [
+      {
+        "name": "Descript",
+        "fit": "Edit recorded video through its transcript and prepare captions.",
+        "url": "https://www.descript.com/tools/video-editor",
+        "access": "Check current recording, export and AI feature limits"
+      },
+      {
+        "name": "Adobe Firefly",
+        "fit": "Explore image and video concepts and supporting creative assets.",
+        "url": "https://www.adobe.com/products/firefly.html",
+        "access": "Plan and model terms vary; verify rights before publishing"
+      }
+    ],
+    "useCases": [
+      {
+        "slug": "explainer-video",
+        "title": "Produce an original two-minute explainer",
+        "summary": "Build a useful video around your own demonstration and verified sources.",
+        "inputs": "A clear audience question; primary sources; your own demo footage.",
+        "steps": [
+          "Choose one concrete problem and outline a hook, example and takeaway.",
+          "Record your demonstration, then use transcript editing to remove repetition.",
+          "Check every claim, correct captions and publish with source links."
+        ],
+        "prompt": "Draft a 250-word explainer outline about [topic] using only the verified notes below. Open with the problem, demonstrate one example, explain a limitation and end with a useful takeaway. Mark unsupported claims.",
+        "output": "An original script outline, edited video and reviewed captions.",
+        "review": "This prompt is for a writing assistant; Descript is the editing stage. Do not copy another creator\u2019s script.",
+        "tool": "Descript"
+      },
+      {
+        "slug": "repurpose-interview",
+        "title": "Turn an interview into useful short clips",
+        "summary": "Find self-contained moments without misrepresenting the speaker.",
+        "inputs": "Your authorized recording; speaker consent; intended audience.",
+        "steps": [
+          "Import and transcribe the recording; correct names and specialist terms.",
+          "Select excerpts with enough context and edit by transcript.",
+          "Add reviewed captions and check that each clip preserves the speaker\u2019s meaning."
+        ],
+        "prompt": "From this authorized transcript, suggest three self-contained clip candidates with an accurate title and why each is useful. Do not invent quotes or timestamps. [transcript]",
+        "output": "A reviewed shortlist and captioned clips.",
+        "review": "Watch the complete final clip; avoid deceptive cuts and verify permissions.",
+        "tool": "Descript"
+      },
+      {
+        "slug": "thumbnail-concepts",
+        "title": "Create honest thumbnail concepts",
+        "summary": "Communicate the real value of a video with clear visual options.",
+        "inputs": "Video takeaway; original screenshots; brand palette; licensed imagery.",
+        "steps": [
+          "Write a short promise that the actual video delivers.",
+          "Generate three visual directions and combine them with your own screenshots.",
+          "Check mobile readability and make sure visuals do not imply a result you did not achieve."
+        ],
+        "prompt": "Create a thumbnail concept for a tutorial about [actual result]. Use a clear focal point and space for four words. Do not add fake earnings, endorsements or product features.",
+        "output": "Three thumbnail concepts and one manually reviewed final design.",
+        "review": "Check likeness permissions, readable text and truthful representation.",
+        "tool": "Adobe Firefly"
+      }
+    ]
+  },
+  {
+    "slug": "developers",
+    "name": "Developers",
+    "icon": "\ud83d\udcbb",
+    "intro": "Use coding assistants to investigate, implement and review changes with evidence.",
+    "caution": "Keep secrets and customer data out of prompts. Use repository-approved tools, review generated changes and run meaningful checks before merging.",
+    "tools": [
+      {
+        "name": "GitHub Copilot",
+        "fit": "Explore coding assistance with repository and editor context.",
+        "url": "https://github.com/features/copilot/",
+        "access": "Free and paid offerings; check organization policy and current quotas"
+      },
+      {
+        "name": "GitHub Copilot documentation",
+        "fit": "Learn supported workflows, configuration and responsible use.",
+        "url": "https://docs.github.com/en/copilot",
+        "access": "Official implementation documentation"
+      }
+    ],
+    "useCases": [
+      {
+        "slug": "spring-debugging",
+        "title": "Investigate a Spring Boot failure",
+        "summary": "Turn a sanitized error and minimal example into a testable fix.",
+        "inputs": "Sanitized stack trace; Java and Spring versions; relevant source; reproduction steps.",
+        "steps": [
+          "Reproduce the failure and remove credentials and customer data from logs.",
+          "Ask for ranked hypotheses and the smallest change supported by evidence.",
+          "Write a regression check, run it and review the diff before merging."
+        ],
+        "prompt": "Investigate this Spring Boot failure using the provided code and versions. Separate facts from hypotheses, propose a minimal fix and explain how to verify it. Do not invent APIs. [sanitized example]",
+        "output": "A reviewed patch, reproduction notes and regression evidence.",
+        "review": "Verify version compatibility, security behavior and failure paths.",
+        "tool": "GitHub Copilot"
+      },
+      {
+        "slug": "test-design",
+        "title": "Design meaningful API tests",
+        "summary": "Cover real behavior and failure cases instead of mirroring implementation.",
+        "inputs": "API contract; authentication rules; boundary conditions; test framework.",
+        "steps": [
+          "List observable outcomes and prioritize risky scenarios.",
+          "Draft tests for success, invalid input, authorization and downstream failures.",
+          "Run against the implementation; confirm at least one test catches the original bug."
+        ],
+        "prompt": "Using this API contract, propose JUnit tests for authorization, validation and failure handling. Explain what each proves. Avoid mocking the method under test or asserting internal implementation details. [contract]",
+        "output": "A risk-based test matrix and executable tests.",
+        "review": "Check assertions and test isolation. Passing generated tests does not establish full correctness.",
+        "tool": "GitHub Copilot"
+      },
+      {
+        "slug": "review-change",
+        "title": "Review a pull request before merge",
+        "summary": "Use AI to surface questions, then verify findings in code.",
+        "inputs": "A focused diff; acceptance criteria; architecture constraints; test results.",
+        "steps": [
+          "Provide the diff and constraints without secrets.",
+          "Request findings tied to changed lines and concrete failure scenarios.",
+          "Reproduce important findings, fix confirmed issues and have a maintainer approve."
+        ],
+        "prompt": "Review this diff for correctness and security. For each finding give the trigger, impact and evidence. Mark uncertainty. Do not invent benchmarks or claim tests ran. [diff and criteria]",
+        "output": "A verified review checklist with resolved findings.",
+        "review": "Treat suggestions as leads. Inspect dependencies, licenses and generated code before merging.",
+        "tool": "GitHub Copilot"
+      }
+    ]
+  }
+]
