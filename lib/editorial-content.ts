@@ -2,6 +2,7 @@ import {z} from 'zod';
 import {db,digest} from './community';
 const https=z.string().max(2000).url().refine(s=>s.startsWith('https://'));
 export const editorialSchema=z.object({
+ videoUrl:z.union([z.literal(''),https]).optional(),videoTitle:z.string().max(180).optional(),videoCredit:z.string().max(200).optional(),
  url:https,title:z.string().trim().min(5).max(200),summary:z.string().trim().min(10).max(650),
  body:z.string().trim().max(30000),provider:z.string().trim().min(1).max(100),model:z.string().max(100),
  category:z.enum(['New features','Model release','Pricing & access','Research','Industry']),date:z.string().datetime(),

@@ -1,0 +1,2 @@
+export type Counts={up:number;down:number;views:number;comments:number};
+export function sortFeed<T extends {date:string;url:string}>(items:T[],sort:string,counts:Record<string,Counts>){return [...items].sort((a,b)=>{const time=(Date.parse(b.date)||0)-(Date.parse(a.date)||0);if(sort==='oldest')return -time;const metric=sort==='discussed'?'comments':sort==='liked'?'up':sort==='viewed'?'views':null;if(!metric)return time;return (counts[b.url]?.[metric]||0)-(counts[a.url]?.[metric]||0)||time})}
