@@ -1,0 +1,2 @@
+export type ArticleStat={value:string;label:string;source:string;asOf:string};
+export default function ArticleStats({stats}:{stats?:ArticleStat[]}){if(!stats?.length)return null;return <div className="article-stats" aria-label="Sourced statistics">{stats.map((s,i)=><a href={s.source} target="_blank" rel="noopener noreferrer" className="article-stat" key={i}><strong>{s.value}</strong><span>{s.label}</span><small>Source ↗ · {s.asOf}</small></a>)}</div>}

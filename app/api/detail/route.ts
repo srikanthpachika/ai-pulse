@@ -1,3 +1,6 @@
+import {articleStatSeeds} from '../../../lib/article-stat-seeds';
+import {relatedReading} from '../../../lib/related-reading';
+import {editorialOverrides,editorialOverride} from '../../../lib/editorial-content';
 import {feedText,feedSummary} from '../../../lib/feed-text';
 import {env} from 'cloudflare:workers';
 import {readResearch} from '../../../lib/research';
@@ -21,7 +24,12 @@ export async function GET(request:Request){
  if(!item){try{const response=await getNews();const feed:any=await response.json();item=feed.stories.find((s:any)=>s.url===url)}catch{}}
  }
  if(!item)return Response.json({error:'This item is no longer in the available feed. Return to Discover to choose another story.'},{status:404});
+ if(!item.stats&&articleStatSeeds[url])item={...item,stats:articleStatSeeds[url]};
+ const override=await editorialOverride(url).catch(()=>null);if(override){item={...item,...override};if(['model','news'].includes(kind))kind='story';}
  if(!item.body&&(blogSeeds as Record<string,string>)[url])item={...item,body:(blogSeeds as Record<string,string>)[url]};
  item={...item,...(item.title?{title:feedText(item.title)}:{}),...(item.summary?{summary:feedText(item.summary)||feedSummary('',item.provider||item.publisher)}:{}),...(item.description?{description:feedText(item.description)}:{})};
- return Response.json({kind,item},{headers:{'Cache-Control':'public, max-age=60'}});
+ const patches=await editorialOverrides().catch(()=>[]);
+ const candidates=[...(research?.stories||[]),...(research?.news||[]),...(research?.repos||[]),...fallback,...seeds.news,...seeds.repos].map((candidate:any)=>({...candidate,...patches.find(p=>p.url===candidate.url)}));
+ const related=relatedReading(item,url,candidates);
+ return Response.json({kind,item,related},{headers:{'Cache-Control':'no-store'}});
 }

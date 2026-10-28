@@ -1,0 +1,15 @@
+import {createRequire} from 'node:module';
+import assert from 'node:assert/strict';
+const require=createRequire(import.meta.url);
+const {build}=createRequire(require.resolve('wrangler/package.json'))('esbuild');
+const result=await build({entryPoints:['lib/related-reading.ts'],bundle:true,platform:'node',format:'esm',write:false});
+const {relatedReading,readingMinutes}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
+const current={url:'https://example.com/current',title:'Coding agents',provider:'Example'};
+const same={url:'https://example.com/next',title:'Agent coding tools',provider:'Example'};
+const unrelated={url:'https://other.com/art',title:'Watercolor techniques',provider:'Other'};
+const resultItems=relatedReading(current,current.url,[current,same,same,unrelated,{...same,url:'javascript:bad'}]);
+assert.equal(resultItems.length,1);assert.equal(resultItems[0].url,same.url);
+assert.equal(readingMinutes({body:'word '.repeat(440)}),2);
+assert.equal(readingMinutes({}),1);
+assert.deepEqual(relatedReading(current,current.url,[unrelated]),[]);
+console.log('Related reading: excludes self, duplicates, unsafe URLs and unrelated items; reading estimates passed.');
