@@ -1,0 +1,2 @@
+export type QuickBrief={change:string;benefit:string;nextStep:string;caveat:string;question:string};
+export function discussionQuestion(item:{quickBrief?:QuickBrief|null;body?:string;title?:string}){return item.quickBrief?.question?.trim()||item.body?.match(/(?:Discussion|Community question):\s*([^\n]+)/i)?.[1]?.trim()||'Which part would help your work, and what would you need to verify before trying it?'}
