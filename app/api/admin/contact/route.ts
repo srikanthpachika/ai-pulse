@@ -1,0 +1,2 @@
+import {adminUnlocked} from '../../../../lib/admin-password';import {db,json} from '../../../../lib/community';
+export async function GET(req:Request){if(!await adminUnlocked(req,'admin'))return json({error:'Admin sign in required'},401);try{const r=await db().prepare("SELECT value FROM settings WHERE key LIKE 'contact:%' ORDER BY json_extract(value, '$.createdAt') DESC LIMIT 200").all<{value:string}>();return json({messages:r.results.map(r=>JSON.parse(r.value))})}catch{return json({error:'Inbox unavailable'},503)}}

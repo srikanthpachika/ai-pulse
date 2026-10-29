@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /account
+Disallow: /api/
+Disallow: /signin-with-chatgpt
+
+Sitemap: https://theainotes.com/sitemap.xml

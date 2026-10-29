@@ -1,0 +1,1 @@
+export default function TrustLinks(){return <nav className="trust-links" aria-label="Publisher information"><a href="/about">About & publisher</a><a href="/contact">Contact</a><a href="/editorial-policy">Editorial standards</a><a href="/privacy">Privacy & cookies</a><a href="/guides">Practical guides</a></nav>}
