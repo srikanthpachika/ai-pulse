@@ -1,18 +1,46 @@
 import type {QuickBrief} from './quick-brief';
-type Item={quickBrief?:QuickBrief|null;summary?:string;body?:string};
+type Item={quickBrief?:QuickBrief|null;summary?:string;body?:string;title?:string};
 const words=(s:string)=>s.toLowerCase().match(/[\p{L}\p{N}]+/gu)||[];
-function similar(a:string,b:string){const x=new Set(words(a)),y=new Set(words(b));if(!x.size||!y.size)return false;return [...x].filter(w=>y.has(w)).length/Math.min(x.size,y.size)>.72}
-// Extract existing editorial text only; never generate missing facts or cut off caveats.
+const stop=new Set('a an the and or of to in on for with is are was were it its this that as by from has have can will'.split(' '));
+const clean=(s:string)=>s.replace(/<[^>]*>/g,' ').replace(/!\[[^\]]*\]\([^)]*\)/g,'').replace(/\[([^\]]+)\]\([^)]*\)/g,'$1').replace(/[*_`]/g,'').replace(/\s+/g,' ').trim();
+const sentences=(s:string)=>Array.from(new Intl.Segmenter('en',{granularity:'sentence'}).segment(s),v=>v.segment.trim()).filter(Boolean);
+function similar(a:string,b:string){
+ const x=new Set(words(a).filter(w=>!stop.has(w))),y=new Set(words(b).filter(w=>!stop.has(w)));
+ if(!x.size||!y.size)return false;
+ return [...x].filter(w=>y.has(w)).length/Math.min(x.size,y.size)>=.65;
+}
+// Extract facts from existing editorial content; never invent missing takeaways.
 export function briefPoints(item:Item){
- const candidates:string[]=[];
- for(const block of (item.body||'').split(/\n\s*\n/)){
-  const text=block.trim().replace(/^#{1,3}\s+[^\n]+\n/,'').replace(/^(What changed|Who benefits|Why it matters|Limits|Limitations):\s*/i,'').replace(/\n/g,' ').trim();
-  if(!text||/^(Discussion|Community question):/i.test(text)||text.length<35)continue;
-  if(words(text).length<=55)candidates.push(text);
+ const excluded=[clean(item.summary||''),...sentences(clean(item.summary||'')),clean(item.title||'')].filter(Boolean);
+ const candidates:{text:string;rank:number;order:number}[]=[];
+ function add(raw:string,rank=0){
+  const text=clean(raw).replace(/^(?:What changed|Who benefits|Why it matters|Limits|Limitations|Practical next step|Next step):\s*/i,'');
+  const count=words(text).length;
+  if(count<6||count>45||excluded.some(s=>similar(text,s)))return;
+  candidates.push({text,rank,order:candidates.length});
+ }
+ let discussion=false;
+ for(const line of (item.body||'').replace(/<\/(?:p|li|h[1-6])>/gi,'\n').split(/\n+/)){
+  const raw=line.trim().replace(/^#{1,6}\s+/,'').replace(/^(?:[-*•]|\d+[.)])\s+/,'');
+  if(/^(?:Discussion|Community question|Your take)(?:\s*:|\s*$)/i.test(raw)){discussion=true;continue;}
+  if(!raw)continue;
+  if(discussion)continue;
+  const parts=sentences(clean(raw));
+  for(let i=0;i<parts.length;i++){
+   // Keep an attached qualification with its claim; skip overlong claims instead of truncating.
+   let part=parts[i];
+   while(i+1<parts.length&&/^(?:However|But|Yet|Although|Except|This does not|It does not|These results|That result)\b/i.test(parts[i+1]))part+=' '+parts[++i];
+   const rank=/\b(?:available|access|price|cost|supports?|includes?|requires?|limited|preview|beta|license|only|cannot|not yet|rollout)\b/i.test(part)?2:1;
+   add(part,rank);
+  }
  }
  const b=item.quickBrief;
- if(b&&candidates.length<2)candidates.push(b.caveat,'Suggested next step: '+b.nextStep,b.benefit,b.change);
- const result:string[]=[];let total=0;
- for(const text of candidates){const count=words(text).length;if(count>55||total+count>105||similar(text,item.summary||'')||result.some(p=>similar(text,p)))continue;result.push(text.charAt(0).toUpperCase()+text.slice(1));total+=count;if(result.length===4)break;}
- return result;
+ if(b){add(b.change,1);add(b.benefit,1);add(b.caveat,2);if(b.nextStep)add('Suggested next step: '+b.nextStep,0);}
+ const selected:typeof candidates=[];let total=0;
+ for(const c of candidates.sort((a,b)=>b.rank-a.rank||a.order-b.order)){
+  const count=words(c.text).length;
+  if(total+count>100||selected.some(p=>similar(c.text,p.text)))continue;
+  selected.push(c);total+=count;if(selected.length===4)break;
+ }
+ return selected.sort((a,b)=>a.order-b.order).map(c=>c.text.charAt(0).toUpperCase()+c.text.slice(1));
 }
