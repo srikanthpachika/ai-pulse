@@ -40,3 +40,5 @@
 .brief-points{margin:18px 0 22px;padding-left:22px;display:grid;gap:12px}.brief-points li{padding-left:4px;line-height:1.55;font-size:15px;color:#233348}.brief-points li::marker{color:#1766a5;font-weight:700}
 
 .trust-links{display:flex;gap:12px 20px;flex-wrap:wrap;width:100%;font-size:13px}.contact-form{max-width:760px}.contact-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}.article-byline{font-size:12px;color:#52647a}.guide-card h2{font-size:23px}.guide-steps li{margin:12px 0;line-height:1.7}.guide-summary{background:#f3f8fe;border-left:4px solid #1766a5;padding:18px 22px;margin:22px 0}.guide-article{max-width:860px}.guide-article p{line-height:1.8}.guide-article h2{margin-top:32px}
+
+.inline-article-image{margin:28px 0}.inline-article-image img{display:block;width:100%;height:auto;max-height:640px;object-fit:contain;border-radius:12px;background:#f5f7fa}.inline-article-image figcaption{font-size:.85rem;color:#566273;margin-top:8px}.gallery-editor{border:1px solid #dce2e8;border-radius:12px;padding:16px;margin:24px 0;min-width:0}.gallery-editor legend{font-weight:700}.gallery-editor .panel{margin-top:16px}
