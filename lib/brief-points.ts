@@ -11,8 +11,8 @@ export function briefPoints(item:Item){
   if(words(text).length<=55)candidates.push(text);
  }
  const b=item.quickBrief;
- if(b)candidates.push(b.caveat,'Suggested next step: '+b.nextStep,b.benefit,b.change);
+ if(b&&candidates.length<2)candidates.push(b.caveat,'Suggested next step: '+b.nextStep,b.benefit,b.change);
  const result:string[]=[];let total=0;
- for(const text of candidates){const count=words(text).length;if(count>55||total+count>105||similar(text,item.summary||'')||result.some(p=>similar(text,p)))continue;result.push(text);total+=count;if(result.length===4)break;}
+ for(const text of candidates){const count=words(text).length;if(count>55||total+count>105||similar(text,item.summary||'')||result.some(p=>similar(text,p)))continue;result.push(text.charAt(0).toUpperCase()+text.slice(1));total+=count;if(result.length===4)break;}
  return result;
 }
