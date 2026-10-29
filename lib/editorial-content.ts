@@ -1,10 +1,11 @@
+import {documentSchema} from './article-document';
 import {gallerySchema} from './article-gallery';
 import {quickBriefSchema} from './quick-brief-schema';
 import {z} from 'zod';
 import {db,digest} from './community';
 const https=z.string().max(2000).url().refine(s=>s.startsWith('https://'));
 export const editorialSchema=z.object({
- images:gallerySchema.optional(),
+ document:documentSchema,images:gallerySchema.optional(),
  quickBrief:quickBriefSchema.nullable().optional(),
  videoUrl:z.union([z.literal(''),https]).optional(),videoTitle:z.string().max(180).optional(),videoCredit:z.string().max(200).optional(),
  url:https,title:z.string().trim().min(5).max(200),summary:z.string().trim().min(10).max(650),

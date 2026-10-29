@@ -1,3 +1,4 @@
+import {hiddenContent} from '../../../lib/hidden-content';
 import {articleStatSeeds} from '../../../lib/article-stat-seeds';
 import {relatedReading} from '../../../lib/related-reading';
 import {editorialOverrides,editorialOverride} from '../../../lib/editorial-content';
@@ -12,6 +13,7 @@ import {GET as getNews} from '../news/route';
 export async function GET(request:Request){
  const url=new URL(request.url).searchParams.get('url');
  if(!url||url.length>2000||!url.startsWith('https://'))return Response.json({error:'Select a valid The AI Notes story.'},{status:400});
+ const hidden=new Set((await hiddenContent()).map(s=>s.url));if(hidden.has(url))return Response.json({error:'This article was removed by the publisher.'},{status:404});
  const research=await readResearch().catch(()=>null);
  const repo=[...(research?.repos||[]),...seeds.repos].find(r=>r.url===url);
  const news=[...(research?.news||[]),...seeds.news].find(n=>n.url===url);
@@ -30,6 +32,6 @@ export async function GET(request:Request){
  item={...item,...(item.title?{title:feedText(item.title)}:{}),...(item.summary?{summary:feedText(item.summary)||feedSummary('',item.provider||item.publisher)}:{}),...(item.description?{description:feedText(item.description)}:{})};
  const patches=await editorialOverrides().catch(()=>[]);
  const candidates=[...(research?.stories||[]),...(research?.news||[]),...(research?.repos||[]),...fallback,...seeds.news,...seeds.repos].map((candidate:any)=>({...candidate,...patches.find(p=>p.url===candidate.url)}));
- const related=relatedReading(item,url,candidates);
+ const related=relatedReading(item,url,candidates.filter(c=>!hidden.has(c.url)));
  return Response.json({kind,item,related},{headers:{'Cache-Control':'no-store'}});
 }

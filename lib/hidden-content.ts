@@ -1,0 +1,3 @@
+import {db,digest} from './community';
+export async function hiddenContent():Promise<{url:string;title:string}[]>{const r=await db().prepare("SELECT value FROM settings WHERE key LIKE 'hidden-content:%'").all<{value:string}>();return r.results.map(x=>JSON.parse(x.value))}
+export async function setContentHidden(url:string,title:string,hidden:boolean){const key='hidden-content:'+await digest(url);if(hidden)await db().prepare('INSERT INTO settings (key,value) VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').bind(key,JSON.stringify({url,title})).run();else await db().prepare('DELETE FROM settings WHERE key=?').bind(key).run()}

@@ -1,3 +1,4 @@
+import {hiddenContent} from '../../../lib/hidden-content';
 import {articleStatSeeds} from '../../../lib/article-stat-seeds';
 import {env} from 'cloudflare:workers';
 import {editorialOverrides} from '../../../lib/editorial-content';
@@ -15,5 +16,5 @@ export async function GET(){
  if(env.BUCKET){try{const archived=await env.BUCKET.get('content/feed-history.json');const history=new Map<string,Story>((archived?await archived.json<Story[]>():[]).map(s=>[s.url,s]));for(const s of unique.values())history.set(s.url,s);await env.BUCKET.put('content/feed-history.json',JSON.stringify([...history.values()].sort((a,b)=>+new Date(b.date)-+new Date(a.date)).slice(0,2000)),{httpMetadata:{contentType:'application/json'}})}catch{}}
  for(const [url,s] of unique){if(!s.stats&&articleStatSeeds[url])unique.set(url,{...s,stats:articleStatSeeds[url]});}
  const overrides=await editorialOverrides().catch(()=>[]);for(const patch of overrides){if(unique.has(patch.url))unique.set(patch.url,{...unique.get(patch.url),...patch});}
- return Response.json({stories:[...unique.values()].sort((a,b)=>+new Date(b.date)-+new Date(a.date)),checkedAt:new Date().toISOString(),research:research?{updatedAt:research.updatedAt,coverage:research.coverage,notes:research.notes}:null,feeds:results.map(({name,ok})=>({name,ok}))},{headers:{'Cache-Control':'no-store'}});
+ const hidden=new Set((await hiddenContent()).map(s=>s.url));return Response.json({stories:[...unique.values()].filter(s=>!hidden.has(s.url)).sort((a,b)=>+new Date(b.date)-+new Date(a.date)),checkedAt:new Date().toISOString(),research:research?{updatedAt:research.updatedAt,coverage:research.coverage,notes:research.notes}:null,feeds:results.map(({name,ok})=>({name,ok}))},{headers:{'Cache-Control':'no-store'}});
 }

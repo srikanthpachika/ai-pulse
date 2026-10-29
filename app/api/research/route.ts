@@ -1,7 +1,8 @@
+import {hiddenContent} from '../../../lib/hidden-content';
 import {writerAllowed} from '../../../lib/community';
 import {readResearch,writeResearch,updateSchema,instructions} from '../../../lib/research';
 // All writes require an administrator identity or the dedicated writer credential.
-export async function GET(){try{return Response.json({...await readResearch(),instructions},{headers:{'Cache-Control':'no-store'}})}catch{return Response.json({error:'Research storage is temporarily unavailable'},{status:503})}}
+export async function GET(){try{return Response.json({...await readResearch(),hiddenUrls:(await hiddenContent()).map(s=>s.url),instructions},{headers:{'Cache-Control':'no-store'}})}catch{return Response.json({error:'Research storage is temporarily unavailable'},{status:503})}}
 export async function POST(request:Request){
  if(!await writerAllowed(request))return Response.json({error:"Writer authorization required"},{status:403});
  const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)return Response.json({error:'Origin not allowed'},{status:403});
