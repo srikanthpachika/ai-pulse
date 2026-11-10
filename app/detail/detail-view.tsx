@@ -1,4 +1,5 @@
 'use client';
+import {isEditorialArticle} from '../../lib/editorial-index';
 import {readingMinutes} from '../../lib/related-reading';
 import {ReadingProgress,RelatedReading,ArticleBody} from '../reading-tools';
 import QuickBriefCard from '../quick-brief';
