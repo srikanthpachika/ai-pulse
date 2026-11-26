@@ -9,6 +9,8 @@ const selection={reason:'A practical coding workflow with clear reader benefits.
 const story={title:'Useful AI release',summary:'An original summary of a useful AI release.',url:'https://example.com/release',date:new Date().toISOString(),provider:'Example',category:'New features',selection};
 const input={mode:'manual-curated',runId:'test-run',coverage:['Example'],notes:'',stories:[story]};
 assert.equal(updateSchema.safeParse(input).success,true);
+assert.equal(updateSchema.safeParse({...input,mode:'daily-curated'}).success,true);
+assert.equal(updateSchema.safeParse({...input,mode:'hourly'}).success,false);
 assert.equal(updateSchema.safeParse({...input,mode:undefined}).success,false);
 assert.equal(updateSchema.safeParse({...input,stories:[{...story,selection:undefined}]}).success,false);
 assert.equal(updateSchema.safeParse({...input,stories:Array(6).fill(story)}).success,false);
@@ -21,4 +23,4 @@ const route=await readFile('app/api/news/route.ts','utf8');
 assert.doesNotMatch(route,/\bfetch\s*\(/);
 assert.doesNotMatch(route,/BUCKET\.put/);
 for(const path of ['app/feed-home.tsx','app/discover.tsx'])assert.doesNotMatch(await readFile(path,'utf8'),/setInterval/);
-console.log('Manual curation, evidence, freshness, combined limits and no-polling checks passed.');
+console.log('Daily and manual curation, evidence, freshness, combined limits and no-polling checks passed.');
