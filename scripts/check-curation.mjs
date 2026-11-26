@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {readFile} from 'node:fs/promises';
+const require=createRequire(import.meta.url);
+const {build}=createRequire(require.resolve('wrangler/package.json'))('esbuild');
+const result=await build({entryPoints:['lib/research.ts'],bundle:true,platform:'node',format:'esm',write:false,plugins:[{name:'test-env',setup(b){b.onResolve({filter:/^cloudflare:workers$/},()=>({path:'env',namespace:'test'}));b.onLoad({filter:/.*/,namespace:'test'},()=>({contents:'export const env={};'}));}}]});
+const {updateSchema}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
+const selection={reason:'A practical coding workflow with clear reader benefits.',popularityEvidence:'Independent coverage and reported community discussion.',evidenceUrl:'https://example.com/evidence',checkedAt:new Date().toISOString()};
+const story={title:'Useful AI release',summary:'An original summary of a useful AI release.',url:'https://example.com/release',date:new Date().toISOString(),provider:'Example',category:'New features',selection};
+const input={mode:'manual-curated',runId:'test-run',coverage:['Example'],notes:'',stories:[story]};
+assert.equal(updateSchema.safeParse(input).success,true);
+assert.equal(updateSchema.safeParse({...input,mode:undefined}).success,false);
+assert.equal(updateSchema.safeParse({...input,stories:[{...story,selection:undefined}]}).success,false);
+assert.equal(updateSchema.safeParse({...input,stories:Array(6).fill(story)}).success,false);
+const news={...story,publisher:'Example',topic:'Coding',status:'Released'};
+assert.equal(updateSchema.safeParse({...input,stories:Array(3).fill(story),news:Array(3).fill(news)}).success,false);
+assert.equal(updateSchema.safeParse({...input,stories:[{...story,selection:{...selection,checkedAt:'2020-01-01'}}]}).success,false);
+assert.equal(updateSchema.safeParse({...input,stories:[]}).success,true);
+// Guard against reintroducing publisher pulls or page polling.
+const route=await readFile('app/api/news/route.ts','utf8');
+assert.doesNotMatch(route,/\bfetch\s*\(/);
+assert.doesNotMatch(route,/BUCKET\.put/);
+for(const path of ['app/feed-home.tsx','app/discover.tsx'])assert.doesNotMatch(await readFile(path,'utf8'),/setInterval/);
+console.log('Manual curation, evidence, freshness, combined limits and no-polling checks passed.');

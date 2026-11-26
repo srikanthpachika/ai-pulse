@@ -6,7 +6,7 @@ Primary requested domain: **theainotes.com**. Domain routing requires DNS valida
 
 ## Features
 
-- Daily research ingestion with evidence-backed model profiles and original summaries.
+- Manual curated research ingestion with evidence-backed model profiles and original summaries.
 - Blog detail pages, anonymous or signed-in comments, moderation, reactions, view counts, and sharing.
 - Owner sign-in plus an admin password, editorial publishing, and analytics for section visits and active time.
 - Responsive advertisement placeholders; AdSense code is not activated.
@@ -160,3 +160,12 @@ The portable build runs Vinext directly without a host `timeout` command. The ma
 
 - [vinext Documentation](https://github.com/cloudflare/vinext)
 - [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+
+
+### Manual content selection
+
+Publisher RSS is no longer fetched by `/api/news`, page visits, or reloads. Feed and discovery pages do not poll. Existing research, editorial changes, and curated fallback stories remain readable. The reload button only reloads saved content.
+
+Request research explicitly from the owner workflow described by `GET /api/research`; keep external research automations paused. `POST /api/research` retains writer authorization and now requires `mode: "manual-curated"`. Select at most five items combined across stories, news, and repos. Each item requires `selection: {reason, popularityEvidence, evidenceUrl, checkedAt}` with a concrete reader benefit, observed popularity evidence, its HTTPS source, and a verification timestamp within seven days. This is an editorial evidence requirement, not an automated guarantee of internet-wide popularity. Empty selections are valid; never fill a quota. Existing stored records need no migration. Legacy bulk writer payloads are rejected.
+
+These changes take effect on the live site only after deployment. External schedulers must remain paused separately; this repository contains no cron trigger.
